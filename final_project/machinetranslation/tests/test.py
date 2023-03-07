@@ -1,5 +1,6 @@
 from unittest import TestCase
-from translator import english_to_french, french_to_english
+from machinetranslation.translator import english_to_french
+
 
 class TestEnglishToFrench(TestCase):
     def test_translation(self):

@@ -1,48 +1,52 @@
-# -*- coding: utf-8 -*-
-
 import json
-from ibm_watson import LanguageTranslatorV3
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import os
 from dotenv import load_dotenv
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson import LanguageTranslatorV3
+
 
 load_dotenv()
 
 apikey = os.environ['apikey']
 url = os.environ['url']
 
-def englishToFrench(englishText):   
-    authenticator = IAMAuthenticator('{apikey}')
+def english_to_french(english_text):
+    """
+    Translates English text to French.
+    """
+    authenticator = IAMAuthenticator(apikey)
     language_translator = LanguageTranslatorV3(
         version='001',
         authenticator=authenticator
-)
+    )
 
-    language_translator.set_service_url('https://api.eu-de.language-translator.watson.cloud.ibm.com')
+    language_translator.set_service_url(url)
 
     translation = language_translator.translate(
-        text=englishText,
+        text=english_text,
         model_id='en-fr').get_result()
-    frenchText = translation['translations'][0]['translation']
+    french_text = translation['translations'][0]['translation']
     print(json.dumps(translation, indent=2, ensure_ascii=False))
     
-    return frenchText
+    return french_text
 
 
-
-def frenchToEnglish(frenchText):
-    authenticator = IAMAuthenticator('{apikey}')
+def french_to_english(french_text):
+    """
+    Translates French text to English.
+    """
+    authenticator = IAMAuthenticator(apikey)
     language_translator = LanguageTranslatorV3(
         version='001',
         authenticator=authenticator
-)
+    )
 
-    language_translator.set_service_url('https://api.eu-de.language-translator.watson.cloud.ibm.com')
+    language_translator.set_service_url(url)
 
     translation = language_translator.translate(
-        text=frenchText,
+        text=french_text,
         model_id='fr-en').get_result()
-    englishText = translation['translations'][0]['translation']
+    english_text = translation['translations'][0]['translation']
     print(json.dumps(translation, indent=2, ensure_ascii=False))
 
-    return englishText
+    return english_text
